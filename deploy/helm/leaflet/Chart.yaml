@@ -1,0 +1,6 @@
+apiVersion: v2
+name: leaflet
+description: Campaign desk for small businesses
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "leaflet.fullname" . }}
+  labels:
+    {{- include "leaflet.labels" . | nindent 4 }}
+data:
+  LLM_MODEL: {{ .Values.config.llmModel | quote }}
+  LLM_TIMEOUT_SECONDS: {{ .Values.config.llmTimeoutSeconds | quote }}
+  SEED_DEMO: {{ .Values.config.seedDemo | quote }}
+  LOG_LEVEL: {{ .Values.config.logLevel | quote }}
+  CORS_ORIGINS: {{ .Values.config.corsOrigins | quote }}
+  WORKER_POLL_SECONDS: {{ .Values.config.workerPollSeconds | quote }}
+  RUN_MIGRATIONS: "0"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "leaflet.fullname" . }}-web
+  labels:
+    {{- include "leaflet.labels" . | nindent 4 }}
+data:
+  default.conf: |
+{{ .Files.Get "files/default.conf" | replace "__API_UPSTREAM__" (printf "http://%s-api:8000" (include "leaflet.fullname" .)) | indent 4 }}

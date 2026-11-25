@@ -1,0 +1,80 @@
+nameOverride: ""
+fullnameOverride: ""
+
+api:
+  replicas: 2
+  image:
+    repository: ghcr.io/souravmaitra9/leaflet-api
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+worker:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+
+web:
+  replicas: 2
+  image:
+    repository: ghcr.io/souravmaitra9/leaflet-web
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# Create this secret out of band when externalSecrets.enabled is false.
+# Keys: DATABASE_URL, REDIS_URL, LLM_API_KEY.
+envSecret:
+  name: ""
+
+config:
+  llmModel: gpt-4o-mini
+  llmTimeoutSeconds: "20"
+  seedDemo: "false"
+  logLevel: INFO
+  corsOrigins: "http://localhost:8080"
+  workerPollSeconds: "2"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+networkPolicy:
+  enabled: true
+  ingressNamespace: ingress-nginx
+  monitoringNamespace: monitoring
+
+externalSecrets:
+  enabled: false
+  refreshInterval: 1h
+  storeName: aws-secrets
+  storeKind: ClusterSecretStore
+  remoteKey: leaflet/prod
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
