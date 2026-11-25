@@ -1,0 +1,8 @@
+Leaflet is installed.
+
+Web service: {{ include "leaflet.fullname" . }}-web:8080
+API service: {{ include "leaflet.fullname" . }}-api:8000
+
+The API and worker read DATABASE_URL, REDIS_URL, and LLM_API_KEY from secret {{ include "leaflet.secretName" . }}.
+Create that secret before the pods start, or set externalSecrets.enabled=true when External Secrets is installed.
+Leave LLM_API_KEY empty to keep the local writer.
