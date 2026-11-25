@@ -54,8 +54,9 @@ jobs:
           docker build -t leaflet-web:${{ github.sha }} frontend
       - name: Install Trivy
         run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/v0.58.1/contrib/install.sh | sh -s -- -b "$HOME/bin" v0.58.1
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/v0.76.2/contrib/install.sh | sh -s -- -b "$HOME/bin" v0.76.2
           echo "$HOME/bin" >> "$GITHUB_PATH"
+          trivy --version
       - name: Scan images
         run: |
           # Report only. Base-image advisories move on their own, and this
