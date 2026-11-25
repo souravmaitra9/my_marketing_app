@@ -1,0 +1,13 @@
+region              = "us-east-1"
+project             = "leaflet"
+environment         = "example"
+vpc_cidr            = "10.42.0.0/16"
+cluster_version     = "1.31"
+node_instance_types = ["t3.large"]
+node_desired_size   = 2
+node_min_size       = 2
+node_max_size       = 4
+db_instance_class   = "db.t4g.micro"
+db_name             = "leaflet"
+db_username         = "leaflet"
+redis_node_type     = "cache.t4g.micro"
